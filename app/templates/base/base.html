@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+{% include 'base/head.html'%}
+
+<body class="hero is-fullheight">
+    <!-- Mobile Nav -->
+    <div class="navbar is-hidden-desktop has-navbar-fixed-to" style="z-index: auto !important">
+        <div class="container">
+            <div class="navbar-brand has-background-black ">
+                <a class="navbar-item " href="{{url_for('main.home')}}" style="font-weight:bold;">
+                    <div class="">
+                        <p class="is-size-4 libre has-text-white has-text-weight-light">Hafta</p>
+                    </div>
+
+                </a>
+                <span class="navbar-burger burger has-text-white" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="navMenu"
+                class="navbar-menu is-shadowless has-background-black has-navbar-fixed-top animated fadeIn">
+
+                <div class="navbar-end is-size-5 is-center" style="padding-left:1rem; padding-top:2rem;">
+                    <aside class="menu" style="margin-bottom:2rem;">
+                        <p class="menu-label">
+                            General
+                        </p>
+                        <ul class="menu-list ">
+                            <li><a href="{{url_for('main.home')}}" class="has-text-white"><span class="icon icon-btn"><i
+                                            data-feather="zap"></i></span>
+                                    Dashboard</a></li>
+                            <li><a href="{{url_for('main.show_firms')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="briefcase"></i></span>
+                                    Firms</a></li>
+                            <li><a href="{{url_for('employee.show_employee')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="users"></i></span>
+                                    Employees</a></li>
+                        </ul>
+                    </aside>
+                    <aside class="menu" style="margin-bottom:2rem;">
+                        <p class="menu-label">
+                            Transaction
+                        </p>
+                        <ul class="menu-list ">
+
+                            <li><a href="{{url_for('transaction.show_sheet')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="book-open"></i></span>
+                                    Salary Sheet</a></li>
+                            <li><a href="{{url_for('transaction.show_advance')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="dollar-sign"></i></span>
+                                    Advance</a></li>
+                            <li><a href="{{url_for('transaction.show_performance')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="award"></i></span>
+                                    Performance</a></li>
+                            <li><a href="{{url_for('transaction.show_attendence')}}" class="has-text-white"><span
+                                        class="icon icon-btn">
+                                        <i data-feather="clock"></i>
+                                    </span>
+                                    Attendence</a></li>
+                            <li><a href="{{url_for('transaction.show_quick')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="inbox"></i></span>
+                                    Quick Report</a></li>
+                        </ul>
+                    </aside>
+
+                    <aside class="menu" style="margin-bottom:2rem;">
+                        <p class="menu-label">
+                            MASTER
+                        </p>
+                        <ul class="menu-list">
+                            <li><a href="{{url_for('master.view_master')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="layers"></i></span>
+                                    Basic Master</a></li>
+                            <li><a href="{{url_for('employee.new')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="user-plus"></i></span>
+                                    Employee</a></li>
+                        </ul>
+                    </aside>
+
+                    <aside class="menu is-fixed-bottom">
+                        <p class="menu-label">
+                            User
+                        </p>
+                        <ul class="menu-list ">
+                            <li><a href="{{url_for('main.home')}}" class="has-text-white"><span class="icon icon-btn"><i
+                                            data-feather="user"></i></span> {{current_user.username}}</a></li>
+                            <li><a href="{{url_for('auth.logout')}}" class="has-text-white"><span
+                                        class="icon icon-btn"><i data-feather="log-out"></i></span> Logout</a></li>
+
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Burger Navingation  -->
+    <script type="text/javascript">
+        (function () {
+            var burger = document.querySelector('.burger');
+            var nav = document.querySelector('#' + burger.dataset.target);
+            burger.addEventListener('click', function () {
+                burger.classList.toggle('is-active');
+                nav.classList.toggle('is-active');
+            });
+        })();
+    </script>
+
+    <!-- Main Content -->
+    <div class="columns is-fullheight" style="margin-top:0 ; margin-bottom: 0; ">
+
+        <!-- Desktop nav -->
+        <div class="column has-text-white is-2  has-background-black is-hidden-touch has-background-black"
+            id="mainmenu">
+            <div id="side-menu" class="is-sidebar-menu">
+                <div>
+                    <p class="libre is-size-4 has-text-white" style="margin-bottom : 2rem; padding-left: 1rem">Hafta</p>
+
+                </div>
+
+                <aside class="menu" style="margin-bottom:2rem;">
+                        <ul class="menu-list ">
+                                <li>
+                                    <a class="has-text-grey has-text-weight-semibold" @click="toggleGeneral">
+                                        GENERAL
+                                        <span class="icon icon-btn">
+        
+                                            <feather type="chevron-down" v-if="general == false" size="1.3rem"></feather>
+                                            <feather type="chevron-up" v-if="general == true" size="1.3rem"></feather>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                    <ul class="menu-list is-size-6" v-if="general">
+                        <li><a href="{{url_for('main.home')}}" class="has-text-white">
+                                Dashboard</a></li>
+                        <li><a href="{{url_for('main.show_firms')}}" class="has-text-white">
+                                Firms</a></li>
+                        <li><a href="{{url_for('employee.show_employee')}}" class="has-text-white">
+                                Employees</a></li>
+                    </ul>
+                </aside>
+                <aside class="menu" style="margin-bottom:2rem;">
+
+                    <ul class="menu-list ">
+                        <li>
+                            <a class="has-text-grey has-text-weight-semibold" @click="toggleReports">
+                                REPORTS
+                                <span class="icon icon-btn">
+
+                                    <feather type="chevron-down" v-if="reports == false" size="1.3rem"></feather>
+                                    <feather type="chevron-up" v-if="reports == true" size="1.3rem"></feather>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="menu-list " v-if="reports">
+                        <li><a href="{{url_for('report.view_sheet')}}" class="has-text-white">
+                                Salary Sheet</a></li>
+                        <li><a href="{{url_for('report.view_advance')}}" class="has-text-white">
+                                Advance</a></li>
+                        <li><a href="{{url_for('report.view_slips')}}" class="has-text-white">
+                                Salary Slips</a></li>
+                        <li><a href="{{url_for('report.view_performance')}}" class="has-text-white">
+                                Performance</a></li>
+
+                    </ul>
+                </aside>
+                <aside class="menu" style="margin-bottom:2rem;">
+                        <ul class="menu-list ">
+                                <li>
+                                    <a class="has-text-grey has-text-weight-semibold" @click="toggleTrans">
+                                        TRANSACTION
+                                        <span class="icon icon-btn">
+        
+                                            <feather type="chevron-down" v-if="trans == false" size="1.3rem"></feather>
+                                            <feather type="chevron-up" v-if="trans== true" size="1.3rem"></feather>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                    <ul class="menu-list" v-if="trans">
+                        <li><a href="{{url_for('transaction.show_sheet')}}" class="has-text-white">
+                                Salary Sheet</a></li>
+                        <li><a href="{{url_for('transaction.show_advance')}}" class="has-text-white">
+                                Advance</a></li>
+                        <li><a href="{{url_for('transaction.show_performance')}}" class="has-text-white">
+                                Performance</a></li>
+                        <li><a href="{{url_for('transaction.show_attendence')}}" class="has-text-white">
+                                Attendence</a></li>
+                        <li><a href="{{url_for('transaction.show_quick')}}" class="has-text-white">
+                                Quick Report</a></li>
+                    </ul>
+                </aside>
+
+                <aside class="menu" style="margin-bottom:2rem;">
+                        <ul class="menu-list ">
+                                <li>
+                                    <a class="has-text-grey has-text-weight-semibold" @click="toggleMaster">
+                                        MASTER
+                                        <span class="icon icon-btn">
+        
+                                            <feather type="chevron-down" v-if="master == false" size="1.3rem"></feather>
+                                            <feather type="chevron-up" v-if="master == true" size="1.3rem"></feather>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                    <ul class="menu-list" v-if="master">
+                        <li><a href="{{url_for('master.view_master')}}" class="has-text-white">
+                                Basic Master</a></li>
+                        <li><a href="{{url_for('employee.new')}}" class="has-text-white">
+                                Employee</a></li>
+                    </ul>
+                </aside>
+
+                <aside class="menu is-fixed-bottom">
+                        <ul class="menu-list ">
+                                <li>
+                                    <a class="has-text-grey has-text-weight-semibold" @click="toggleUser">
+                                        USER
+                                        <span class="icon icon-btn">
+        
+                                            <feather type="chevron-down" v-if="user == false" size="1.3rem"></feather>
+                                            <feather type="chevron-up" v-if="user == true" size="1.3rem"></feather>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                    <ul class="menu-list" v-if="user">
+                        <li><a href="{{url_for('main.home')}}" class="has-text-white"> {{current_user.username}}</a>
+                        </li>
+                        <li><a href="{{url_for('auth.logout')}}" class="has-text-white"> Logout</a></li>
+
+                    </ul>
+                </aside>
+
+            </div>
+        </div>
+        <div class="column is-main-content ">
+
+            <div class=" animated fadeIn">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+      
+
+        new Vue({
+            el: "#side-menu",
+            data() {
+                return {
+                    reports: false,
+                    user: false,
+                    master: false,
+                    trans: false,
+                    general: false,
+                }
+
+            },
+            methods: {
+                toggleReports() {
+                    this.reports = !this.reports;
+                },
+                toggleTrans() {
+                    this.trans = !this.trans;
+                },
+                toggleMaster() {
+                    this.master = !this.master;
+                },
+                toggleGeneral() {
+                    this.general = !this.general;
+                },
+                toggleUser() {
+                    this.user = !this.user;
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

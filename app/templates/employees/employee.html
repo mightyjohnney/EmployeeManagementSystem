@@ -1,0 +1,411 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+{% include "component/heatmap.html"%}
+{% include "component/columnchart.html"%}
+<!-- Need work -->
+<section class="section">
+    <div class="container" id="emp_detail">
+
+        <table class="table is-fullwidth is-bordered">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <small class="has-text-grey has-text-weight-semibold">NAME</small>
+                        <p class="is-size-5 is-size-6-mobile has-text-weight-normal-mobile is-capitalized">[[
+                            empDetail.name ]]</p>
+
+                    </th>
+                    <th colspan="2"> <small class="has-text-grey has-text-weight-semibold">COMPANY</small>
+                        <p class="is-size-5 is-size-6-mobile has-text-weight-normal-mobile"
+                            v-if="!empDetail.company.length ">None</p>
+                        <p class="is-size-5 is-size-6-mobile has-text-weight-normal-mobile"
+                            v-if="empDetail.company.length ">[[ empDetail.company[0].name
+                            ]] , [[ empDetail.company[0].location[0].name
+                            ]]</p>
+                    </th>
+                    <th colspan="2">
+                        <small class="has-text-grey has-text-weight-semibold">BASIC PAY</small>
+                        <p class="is-size-5 is-size-6-mobile has-text-weight-normal-mobile">[[
+                            formatedNumber(empDetail.basicpay) ]]</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="1">
+                        <small class="has-text-weight-semibold has-text-grey"> APPOINTMENT</small>
+
+                        <p class="has-text-black has-text-weight-semibold"
+                            v-html=" empDetail.appointment.length? empDetail.appointment[0].name : 'None'">
+                        </p>
+
+                    </td>
+                    <td colspan="1">
+
+                        <small class="has-text-weight-semibold has-text-grey">POST</small>
+                        <p class="has-text-black has-text-weight-semibold"
+                            v-html=" empDetail.post.length? empDetail.post[0].name : 'None'">
+                        </p>
+                    </td>
+
+                    <td colspan="1">
+                        <small class="has-text-weight-semibold has-text-grey"> DEPARTMENT</small>
+
+                        <p class="has-text-black has-text-weight-semibold"
+                            v-html=" empDetail.department.length ? empDetail.department[0].name : 'None' ">
+                        </p>
+
+                    </td>
+                    <td colspan="1">
+                        <small class="has-text-weight-semibold has-text-grey"> ADVANCE AMOUNT</small>
+
+                        <p class="has-text-black has-text-weight-semibold"
+                            v-html=" empDetail.advancevalue? formatedNumber(empDetail.advancevalue) : 'None'">
+                        </p>
+
+                    </td>
+                    <td colspan="1">
+                        <small class="has-text-weight-semibold has-text-grey"> NUMBER of ADVANCES</small>
+
+                        <p class="has-text-black has-text-weight-semibold"
+                            v-html=" empDetail.advancenum?  empDetail.advancenum : 'None'">
+                        </p>
+
+                    </td>
+                </tr>
+                <tr class="has-background-light">
+                    <td> <small class="has-text-weight-semibold has-text-grey"> PHOTO</small>
+                        <br>
+                        <button class="button" @click="isPdf.pan ? viewPDF('photofile') : showUpload('photofile') "
+                            :disabled="empDetail.photofile == null ">
+                            <span class="icon icon-btn">
+                                <feather type="eye" size="1.3rem"></feather>
+                            </span>
+                            View</button>
+                    </td>
+                    <td> <small class="has-text-weight-semibold has-text-grey"> PAN</small>
+                        <br>
+                        <button class="button" @click="isPdf.pan ? viewPDF('panfile') : showUpload('panfile') "
+                            :disabled="empDetail.panfile == null ">
+                            <span class="icon icon-btn">
+                                <feather type="eye" size="1.3rem"></feather>
+                            </span>
+                            View</button>
+                    </td>
+                    <td><small class="has-text-weight-semibold has-text-grey"> AADHAR</small> <br>
+                        <button class="button" @click="isPdf.pan ? viewPDF('panfile') :showUpload('aadharfile') "
+                            :disabled="empDetail.aadharfile == null">
+                            <span class="icon icon-btn">
+                                <feather type="eye" size="1.3rem"></feather>
+                            </span>
+                            View</button>
+                    </td>
+                    <td><small class="has-text-weight-semibold has-text-grey"> EXTRA ID</small> <br>
+                        <button class="button" @click="isPdf.pan ? viewPDF('panfile') :showUpload('extraidfile') "
+                            :disabled="empDetail.extraidfile == null">
+                            <span class="icon icon-btn">
+                                <feather type="eye" size="1.3rem"></feather>
+                            </span>
+                            View</button>
+                    </td>
+                    <td><small class="has-text-weight-semibold has-text-grey"> EDUCATION CERT.</small> <br>
+                        <button class="button" @click="isPdf.pan ? viewPDF('panfile') :showUpload('educertfile') "
+                            :disabled="empDetail.educertfile == null">
+                            <span class="icon icon-btn">
+                                <feather type="eye" size="1.3rem"></feather>
+                            </span>
+                            View</button>
+                    </td>
+                    <td><small class="has-text-weight-semibold has-text-grey"> RESUME</small> <br>
+                        <button class="button" @click="isPdf.pan ? viewPDF('panfile') :showUpload('resumefile') "
+                            :disabled="empDetail.resumefile == null">
+                            <span class="icon icon-btn">
+                                <feather type="eye" size="1.3rem"></feather>
+                            </span>
+                            View</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <!-- Image Viewer -->
+        <div class="modal animated is-active fadeIn" v-show="viewUpload">
+            <div class="modal-background" @click="viewUpload = !viewUpload"></div>
+            <div class="modal-content">
+                <figure class="image">
+                    <img :src="fileSrc" alt="">
+                </figure>
+                <button class="modal-close is-large" aria-label="close" @click="viewUpload = !viewUpload"></button>
+
+            </div>
+
+        </div>
+        <!-- End Image Modal -->
+        <div class="columns">
+            <div class="column">
+                <div class="box">
+
+                    <p class="is-size-5 has-text-weight-semibold">Attendence</p>
+                    <p>View <span class="has-text-weight-semibold"> [[empDetail.name ]]'s</span> attendence below.
+                        <br>
+                        Hover on color block for more info.</p>
+                    <br>
+
+                    <div class="columns">
+                        <div class="column">
+                            <small class="has-text-grey has-text-weight-semibold">LATE COMIN</small>
+
+                            <heatmap :datalist="attDetail.late_att"></heatmap>
+                            <br>
+                            <small class="has-text-grey has-text-weight-semibold">EARLY GOING</small>
+
+                            <heatmap :datalist="attDetail.early_att"></heatmap>
+                            <br>
+                            <small class="has-text-grey has-text-weight-semibold">DAYS ATTENDED</small>
+
+                            <heatmap :datalist="attDetail.day_att"></heatmap>
+                        </div>
+                        <div class="column">
+                            <small class="has-text-grey has-text-weight-semibold is-uppercase">Total Late Comins</small>
+                            <p class="has-text-black is-size-5 has-text-weight-semibold">[[total.late]] Days</p>
+                            <br>
+                            <small class="has-text-grey has-text-weight-semibold is-uppercase">Total Early Going</small>
+                            <p class="has-text-black is-size-5 has-text-weight-semibold">[[total.early]] Days</p>
+                            <br>
+                            <small class="has-text-grey has-text-weight-semibold is-uppercase">Total Days
+                                Attended</small>
+                            <p class="has-text-black is-size-5 has-text-weight-semibold">[[total.days]] Days</p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="box">
+                    <p class="is-size-5 has-text-weight-semibold">Salary Slips </p>
+                    <br>
+                    <div class="field is-grouped">
+                        <div class="control">
+
+                            <label for="" class="label">Select month</label>
+                            <input type="month" class="input" v-model="date">
+                        </div>
+                        <div class="control">
+
+                            <label for="" class="label has-text-white">Submit</label>
+                            <button class="button is-black" @click="getSlip">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="control animated fadeIn" v-if="slip != null && !slipNone">
+
+                            <label for="" class="label has-text-white">Print</label>
+                            <button class="button is-black" @click="printSelected">
+                                <span class="icon icon-btn">
+                                    <feather type="printer" size="1.3rem"></feather>
+                                </span>
+                                Print
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                    <br>
+
+                    <div class="notification has-text-centered animated fadeIn" v-if="slip == null && slipNone">
+                        <span class="icon">
+                            <feather type="info" size="1.3rem"></feather>
+                        </span>
+                        <p>Either Attendence or Salary Sheet hasn't been processed for this month.</p>
+
+                    </div>
+                    <table class="table is-bordered is-fullwidth" v-if="slip != null && !slipNone">
+                        <tbody>
+                            <tr>
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold"> DAYS ATTENDED</small>
+
+                                    <p> [[ slip.daysatt ]]</p>
+
+                                </td>
+                                <td colspan="1">
+
+                                    <small class="has-text-weight-semibold">LATE COMING</small>
+                                    <p>[[ slip.latecomin ]]</p>
+                                </td>
+
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold">BASIC PAY</small>
+
+                                    <p>[[ formatedNumber(slip.employee[0].basicpay) ]]</p>
+
+                                </td>
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold"> DAYS PAYABLE</small>
+
+                                    <p>[[ slip.days_payable ]]</p>
+
+
+                                </td>
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold"> ADVANCE DEDUCTION</small>
+                                    <p> [[ formatedNumber(slip.net_adv_deduction) ]]
+                                    </p>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">
+
+                                    <small class="has-text-weight-semibold">P.F</small>
+                                    <p> [[ slip.esi ]] </p>
+                                </td>
+
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold"> ESI</small>
+
+                                    <p>[[ slip.pf ]]</p>
+
+                                </td>
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold"> TDS</small>
+
+                                    <p> [[ slip.tds ]] </p>
+
+                                </td>
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold"> Other Deduction</small>
+
+                                    <p> [[ slip.other_deduction ]]</p>
+                                </td>
+                                <td colspan="1">
+                                    <small class="has-text-weight-semibold">TOTAL DEDUCTION</small>
+
+                                    <p> [[ formatedNumber(slip.total_deductions) ]] </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"> <small class="has-text-weight-semibold">NET PAYABLE</small>
+                                </td>
+                                <td colspan="1">
+                                    <p>[[ formatedNumber(slip.net_payable) ]]</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="box">
+                    <p class="is-size-5 has-text-weight-semibold">Quick Reports</p>
+                    <br>
+                    <table class="table is-fullwidth is-bordered" v-if="quickReports != null">
+                        <thead>
+                            <th>Date</th>
+                            <th>Feedback</th>
+                            <th>Report</th>
+                        </thead>
+
+
+                        <tbody>
+                            <tr v-for="(row , index) in quickReports" :key="index">
+                                <td>
+                                    [[ formatedDate(row.date) ]]
+                                </td>
+                                <td class="has-text-weight-semibold"
+                                    :class="{'is-underline has-text-danger': row.feedback == 'negative' , '': row.feedback == 'positive' }">
+                                    [[ row.feedback ]]</td>
+                                <td>[[ row.report ]]</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box">
+                    <p class="is-size-5 has-text-weight-semibold">Performance</p>
+                    <br>
+                    <div v-if="perfDetail.length == 0" class="notification has-text-centered">
+                        <span class="icon">
+                            <feather type="info" size="1.3rem"></feather>
+                        </span>
+                        <p>Performances has not been added for <span class="has-text-weight-semibold"> [[ empDetail.name
+                                ]]</span> .</p>
+                    </div>
+                    <div v-if="perfDetail != null && perfDetail.length != 0" v-for="row in perfDetail">
+                        <small class="has-text-grey has-text-weight-semibold">DATE</small>
+                        <p class="has-text-semibold has-text-black has-text-weight-medium">
+                            [[ formatedDate(row.fromdate)]] - [[ formatedDate(row.todate)]]
+                        </p>
+                        <columnchart></columnchart>
+                    </div>
+                </div>
+                <div class="box">
+                    <p class="is-size-5 has-text-weight-semibold">Advances</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<style>
+    @media screen and (max-width: 600px) {
+        table {
+            border: 0;
+        }
+
+
+        table tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+
+        table td {
+            border-bottom: 1px solid #ddd;
+            display: block;
+
+        }
+
+        table th {
+            border-bottom: 1px solid #ddd;
+            display: block;
+        }
+
+        table td::before {
+            /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        table td:last-child {
+            border-bottom: 0;
+        }
+
+        table th::before {
+            /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        table th:last-child {
+            border-bottom: 0;
+        }
+    }
+</style>
+<script src="{{ url_for('static' , filename='js/emp/view.js')}}"></script>
+{% endblock %}

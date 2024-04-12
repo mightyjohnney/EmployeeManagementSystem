@@ -1,0 +1,127 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+{% include 'component/heatmap.html'%}
+<section class="section">
+    <div class="container" id="dash_template">
+
+        <div class="level">
+            <div class="level-left">
+                <p class="is-size-4 has-text-weight-semibold">Dashboard</p>
+            </div>
+
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="box">
+                    <p class="has-text-weight-semibold is-size-5">
+                        <span class="icon icon-btn">
+                            <feather type="bell" size="1.3rem"></feather>
+                        </span>
+                        Updates</p>
+                    <br>
+                    <br>
+                    <p>List salary increments , payroll to prcocess updates</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="box">
+
+                    <p class="has-text-weight-semibold is-size-5">
+                        <span class="icon icon-btn">
+                            <feather type="star" size="1.3rem"></feather>
+                        </span>Top Performer</p>
+                    <br>
+                    <br>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <div class="box">
+                    <p class="has-text-weight-semibold is-size-5">
+                        <span class="icon icon-btn">
+                            <feather type="coffee" size="1.3rem"></feather>
+                        </span>Late Comers </p>
+                    <br>
+                    <p v-if="latecomers == null" class="has-text-centered has-text-grey-light">
+                        <span class="icon icon-btn">
+                            <feather type="rotate-cw" animation="spin"></feather>
+                        </span> Loading
+                    </p>
+                    <table class="table is-fullwidth is-hoverable">
+                        <tbody>
+                            <tr v-for="row in latecomers">
+                                <td>
+                                    <span class="is-capitalized is-size-5">[[ row[1].name]]</span>
+                                    <br>
+                                    <small class="has-text-weight-bold has-text-grey"
+                                        v-html="parsejson(row[1].company)"></small>
+                                </td>
+                                <td> <span class="has-text-weight-semibold">
+                                        [[ row[1].late_att]]</span> Late Comins
+                                    <br>
+                                    [[ row[1].day_att]]</span> Days Attended
+                                </td>
+                                <td>
+                                    <button @click="viewReport(row[0])" class="button is-link is-outlined">
+                                        <span class="icon icon-btn">
+                                            <feather type="bar-chart-2"></feather>
+                                        </span>
+                                        Reports
+                                    </button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="column ">
+                <div class="box">
+                    <p class="has-text-weight-semibold is-size-5">
+                        <span class="icon icon-btn">
+                            <feather type="truck" size="1.3rem"></feather>
+                        </span>Early Goers</p>
+                    <br>
+                    <p v-if="latecomers == null" class="has-text-centered has-text-grey-light">
+                        <span class="icon icon-btn">
+                            <feather type="rotate-cw" animation="spin"></feather>
+                        </span> Loading
+                    </p>
+                    <table class="table is-fullwidth is-hoverable">
+                        <tbody>
+                            <tr v-for="row in latecomers">
+                                <td>
+                                    <span class="is-capitalized is-size-5">[[ row[1].name]]</span>
+                                    <br>
+                                    <small class="has-text-weight-bold has-text-grey"
+                                        v-html="parsejson(row[1].company)"></small>
+                                </td>
+                                <td> <span class="has-text-weight-semibold">
+                                        [[ row[1].early_att]]</span> Early Going
+                                    <br>
+                                    [[ row[1].day_att]]</span> Days Attended
+                                </td>
+                                <td>
+                                    <button @click="viewReport(row[0])" class="button is-link is-outlined">
+                                        <span class="icon icon-btn">
+                                            <feather type="bar-chart-2"></feather>
+                                        </span>
+                                        Reports
+                                    </button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="{{ url_for('static' ,filename='js/reports/dash.js')}}"></script>
+
+{% endblock %}

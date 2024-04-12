@@ -1,0 +1,274 @@
+.brand {
+    font-family: 'Inter', serif;
+    font-weight: 700;
+    letter-spacing: -4px;
+   
+}
+
+body, html {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.input {
+    font-family: 'Inter', 'Roboto', sans-serif !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.libre {
+    font-family: 'Libre Baskerville', serif;
+}
+
+svg {
+    stroke-width: 1.5px !important;
+    opacity: 1 !important;
+    fill: none !important;
+}
+
+.icon-btn {
+    margin-right: 10px !important;
+    margin-bottom: 2px !important;
+    vertical-align: middle !important;
+}
+
+.icon-btn-in {
+    padding: 2px;
+}
+
+i {
+    font-weight: 400i;
+}
+
+.is-sidebar-menu {
+    top: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    width: inherit;
+    position: fixed;
+    padding: 2.5rem 2rem 0 1rem;
+    /* position: sticky !important; */
+    /* border-right: 2px solid rgba(0, 0, 0, 0.1); */
+}
+
+.columns.is-fullheight {
+    min-height: 100vh;
+    max-height: 100% !important;
+    height: 100% !important;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: stretch; */
+}
+
+/* .columns.is-fullheight .column {
+    overflow-y: auto;
+} */
+
+.box {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: 1px solid lightgray;
+    /* z-index: 2 !important; */
+    position: relative;
+}
+
+.notification {
+    border-radius: 0 !important;
+    padding: 1rem !important;
+
+}
+
+.router-link-active {
+    font-weight: 600;
+    border-bottom: 1px solid black !important;
+}
+
+.hero .tabs ul {
+    border-bottom: 1px solid #dbdbdb !important;
+}
+
+.button {
+    font-family: 'Inter';
+    border-radius: 0 !important;
+}
+
+.label {
+    font-weight: 600 !important;
+}
+
+.is-underline {
+    text-decoration: underline;
+}
+
+#mainmenu .menu-list li a:hover {
+    background-color: rgb(63, 63, 63);
+}
+
+#navMenu .menu-list li a:hover {
+    background-color: rgb(63, 63, 63);
+}
+
+#submenu>.menu-list li a {
+    text-decoration: none;
+    background-color: none !important;
+}
+
+#submenu>.menu-list li a:hover {
+    text-decoration: underline;
+    background-color: none !important;
+}
+
+#submenu>.menu-list li a:focus {
+    text-decoration: underline;
+    background-color: none !important;
+}
+
+.actionbar {
+    bottom: 0;
+    top: auto;
+    position: fixed;
+    padding: 2rem 0;
+    border-top: 1px solid #0a0a0a;
+}
+
+.tag {
+    border-radius: 0 !important;
+    border: 0.5px solid #000;
+}
+
+/* Autocomplete from Buefy */
+
+.autocomplete .dropdown-menu {
+    display: block;
+    min-width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    position: relative;
+}
+
+.autocomplete .dropdown-menu.is-opened-top {
+    top: auto;
+    bottom: 100%;
+}
+
+/* .autocomplete .dropdown-content {
+    overflow: auto;
+    max-height: 200px;
+    z-index: 500 !important
+} */
+
+/* 
+.autocomplete .dropdown-item, .autocomplete .dropdown .dropdown-menu .has-link a, .dropdown .dropdown-menu .has-link .autocomplete a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.autocomplete .dropdown-item.is-hovered, .autocomplete .dropdown .dropdown-menu .has-link a.is-hovered, .dropdown .dropdown-menu .has-link .autocomplete a.is-hovered {
+    background: whitesmoke;
+    color: #0a0a0a;
+}
+
+.autocomplete .dropdown-item.is-disabled, .autocomplete .dropdown .dropdown-menu .has-link a.is-disabled, .dropdown .dropdown-menu .has-link .autocomplete a.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.autocomplete.is-small {
+    border-radius: 2px;
+    font-size: 0.75rem;
+}
+
+.autocomplete.is-medium {
+    font-size: 1.25rem;
+}
+
+.autocomplete.is-large {
+    font-size: 1.5rem;
+} */
+
+.taginput-container .tag {
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 1rem !important;
+}
+
+.snackbar {
+    background-color: #0a0a0a!important;
+    border-radius: 0 !important;
+}
+
+.notices.is-top {
+    flex-direction: column;
+}
+
+.notices {
+    position: fixed;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2em;
+    overflow: hidden;
+    /* z-index: 1000; */
+    pointer-events: none;
+}
+
+.notices .snackbar.is-top-right {
+    align-self: flex-end;
+}
+
+@media print, screen and (min-width: 769px) {}
+
+.notices .snackbar {
+    min-width: 350px;
+    max-width: 600px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    .notices .snackbar {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .notices {
+        padding: 0;
+        position: fixed !important;
+    }
+}
+
+.notices .snackbar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    animation-duration: .15s;
+    margin: .5em 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    pointer-events: auto;
+    color: #f5f5f5;
+    min-height: 3em;
+}
+
+.has-background-info {
+    background-color: #c2dbff7c !important;
+}
+
+.notices .snackbar .text {
+    padding: .5em 1em;
+}
+
+.notices .snackbar .action {
+    margin-left: auto;
+    padding: .5em;
+    padding-left: 0;
+    background-color: none;
+}
+
+.snackbar .button {
+    background-color: #0a0a0a!important;
+    color: white;
+}
