@@ -1,6 +1,6 @@
 
 class Config(object):
-    SECRET_KEY = 'you-will-never-guess'
+    SECRET_KEY = 'you-will-never-guess-it'
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:alpine@127.0.0.1/hafta'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # MAIL_SERVER = os.environ.get('MAIL_SERVER')
