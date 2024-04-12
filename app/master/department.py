@@ -70,7 +70,7 @@ def edit_department():
             return jsonify({'message': 'Empty Data.'})
 
     else:
-        return jsonify({'message': 'Invalid HTTP method . Use POST instead.'})
+        return jsonify({'message': 'This is Invalid HTTP method . Use POST instead.'})
 
 
 @bp.route('/delete/department', methods=['POST'])
